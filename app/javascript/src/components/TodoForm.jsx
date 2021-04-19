@@ -1,5 +1,6 @@
 import React from 'react';
 import {observer} from "mobx-react-lite";
+import {todoStore} from "../todoStore";
 
 export const TodoForm = observer(({todo, onCancel }) => {
     const [ text, setText ] = React.useState(todo.text);
@@ -10,7 +11,7 @@ export const TodoForm = observer(({todo, onCancel }) => {
 
     const handleSave = React.useCallback(e => {
         todo.text = text;
-        todo.save();
+        todoStore.update(todo);
         todo.editing = false;
     }, [text, todo])
 
