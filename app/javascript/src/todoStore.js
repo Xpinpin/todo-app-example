@@ -13,6 +13,7 @@ function createTodo(opts = { id: null, editing: false, done: false, text: ""}) {
         },
         toggleEdit() {
             this.editing = !this.editing;
+    
         },
         save() {
             fetch(`/todos/${this.id}`, {
@@ -24,7 +25,7 @@ function createTodo(opts = { id: null, editing: false, done: false, text: ""}) {
                     todo: this
                 })
             });
-           return this;
+           
 
         },
         destroy() {
@@ -54,24 +55,13 @@ export const todoStore = makeAutoObservable({
                 }
             })
         });
+       
         const json = await resp.json();
-        this.todos = [createTodo(json.todo), ...this.todos]
-    },
-    async update(todo) {
-       const response = await  fetch(`/todos/${this.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            todo: this
-        })
-    });
-       const json = await response.json();
         this.todos = [createTodo(json.todo), ...this.todos]
     },
     delete(todo) {
         todo.destroy();
+        
         this.todos = this.todos.filter(t => t.id !== todo.id);
     },
     async fetch() {
